@@ -1,4 +1,4 @@
-local window = require("window")
+local window = require("utils.window")
 local helpers = require("helpers")
 local callbacks = require("callbacks")
 local fn = vim.fn
@@ -35,16 +35,6 @@ end
 M.add_project = function()
 	vim.fn.system("dotnet new console --output TestConsole")
 	window.window('', "dotnet sln add TestConsole")
-end
-
--- This will acctuallt make a new project
--- This will also directly link the project to the solution
--- Give a user the option to select different types of project (ex. class library, NUnit test project)
-M.create_project = function()
-	-- Then we make the project
-	-- Then we link the project
-	local templates = helpers.list_project_templates()
-	window.window('create_project', templates)
 end
 
 -- This gives the user the option to remove a project from their solution

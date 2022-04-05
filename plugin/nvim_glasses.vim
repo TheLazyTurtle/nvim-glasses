@@ -14,4 +14,4 @@ nnoremap glpp :lua require("nvim-glasses").list_projects()<CR>
 nnoremap grp :lua require("nvim-glasses").remove_project()<CR>
 nnoremap gap :lua require("nvim-glasses").add_project()<CR>
 nnoremap glpr :lua require("nvim-glasses").list_project_reference()<CR>
-nnoremap gcp :lua require("nvim-glasses").create_project()<CR>
+nnoremap gcp :lua require("projects.create").create_project()<CR>
