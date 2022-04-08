@@ -21,5 +21,10 @@ M.create_project = function(project_template, name)
         helpers.add_project_to_solution(name)
     end
 end
+
+-- This will return a list of all available project templates
+M.list_project_templates = function()
+    return fn.systemlist("dotnet new --list")
+end
 return M
 

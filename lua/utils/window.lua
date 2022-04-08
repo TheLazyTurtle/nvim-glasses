@@ -53,6 +53,7 @@ local function get_section_items()
     return indicies
 end
 
+-- Gets all the commands per section
 local function get_section_commands(section)
     local x
     if section == "project" then
@@ -67,11 +68,19 @@ local function get_section_commands(section)
 
     local indicies = {}
 
-    for key, _ in pairs(x) do
-        table.insert(indicies, key)
+    for _, value in pairs(x) do
+        table.insert(indicies, value.display_name)
     end
 
     return indicies
+end
+
+local function find_command_by_name(name)
+    for key, value in pairs(commands[Section]) do
+        if value.display_name == name then
+            return key
+        end
+    end
 end
 
 -- Handles a select action
@@ -84,14 +93,17 @@ function M.select_menu_item()
         M.open_window(value)
     else
         if Command ~= nil then
-            -- If there is a selection screen then open that first
+            -- Run the callback
             if (commands[Section][Command]["callback"] ~= nil) then
                 commands[Section][Command]["callback"](value)
             end
             Command = nil
+            print("Finished callback")
         else
-            Command = value
-            local data = commands[Section][value]["data_selection"]()
+            -- Open data selection screen
+            Command = find_command_by_name(value)
+            local data = commands[Section][Command]["data_selection"]()
+            print("Finished data selection")
             M.open_window(Section, data)
         end
     end
