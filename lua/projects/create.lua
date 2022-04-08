@@ -1,5 +1,5 @@
 local helpers = require("helpers")
-local window = require("utils.window")
+-- local window = require("utils.window")
 local api = vim.api
 local fn = vim.fn
 
@@ -11,13 +11,10 @@ local M = {}
 M.create_project = function()
   -- Show templates
 	local templates = helpers.list_project_templates()
-	window.window("projects.create", "create_project_callback", templates)
+	-- window.window("projects.create", "create_project_callback", templates)
 end
 
-M.create_project_callback = function()
-	local project_template = api.nvim_get_current_line()
-	api.nvim_win_close(window.win, true)
-
+M.create_project_callback = function(project_template)
 	-- Parse project to extract the short name out of it
 	local project_short_name = helpers.extract_project_short_name(project_template)
 
