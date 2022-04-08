@@ -1,5 +1,4 @@
 local window = require("utils.window")
-local helpers = require("helpers")
 local api = vim.api
 local fn = vim.fn
 local M = {}
@@ -35,7 +34,6 @@ function M.delete_project(win)
 	folder = folder:gsub(".csproj", ""):gsub("/", "")
 	os.execute("rm -rf ".. folder)
 end
-
 
 -- This runs any of the commands selected from the menu
 function M.run_command(win)

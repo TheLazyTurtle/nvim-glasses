@@ -28,26 +28,10 @@ M.find_all_disconnected_projects = function()
 	return M.get_difference_between_tables(projects, linked_projects)
 end
 
--- This will get all the projects linked to a project
-M.find_linked_projects = function()
-	local solution = M.get_solution_path()
-	return fn.systemlist(string.format("dotnet sln %s list", solution))
-end
-
 -- This will link a project to a solution
 M.add_project_to_solution = function(project_name)
 	local cmd = string.format("dotnet sln add %s", project_name)
 	fn.system(cmd)
-end
-
--- This will create the project
-M.create_project = function(project_template, name)
-	local cmd = string.format("dotnet new %s --name %s", project_template, name)
-	local result = fn.system(cmd)
-
-	if string.find(result, "Restore succeeded.") then
-		M.add_project_to_solution(name)
-	end
 end
 
 -- This will return a list of all available project templates
