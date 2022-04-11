@@ -11,7 +11,13 @@ end
 -- This will list all the project files/folders in your current solution
 M.list_projects = function()
     -- Find a way to show all disconnected projects and ask to add those
-    return find_linked_projects()
+    local projects = find_linked_projects()
+
+    -- These will remove the formatting lines from the console return
+    -- NOTE: Might need that data anyways but put it in the title of the window
+    table.remove(projects, 1)
+    table.remove(projects, 1)
+    return projects
 end
 
 -- This should find all the projects that are not connected to the solution

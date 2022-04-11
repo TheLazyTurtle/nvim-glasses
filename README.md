@@ -8,6 +8,7 @@
 	-> Install packages
 		-> browse packages
 	-> Unistall packages
+    -> Add tests
 ## optional
 	-> Add template things (entity framework files, scaffolding)
 	-> Run tests

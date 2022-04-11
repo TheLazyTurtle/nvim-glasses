@@ -10,32 +10,12 @@ M.setup = function()
     print(M.solution)
 end
 
--- List all the available commands
-M.list_options = function()
-    -- This should also allow you to have an input the select the option you want
-    local options = {
-        "list_project",
-        "add_project",
-        "remove_project",
-        "list_project_reference",
-    }
-
-    window.window("run_command", options)
-end
-
 -- This gives the user the option to remove a project from their solution
 -- Gives the user a selection screen with all their projects which they can select to remove
 M.remove_project = function()
     window.window("delete_project", "dotnet sln <SLN> list")
 end
 
--- Show all the references a project has
--- Give a project selection screen where a user can select the project they want to view the references of
-M.list_project_reference = function()
-    local cmd = string.format("dotnet sln %s list", M.solution)
-    local results = fn.systemlist(cmd)
-    window.window("list_project_reference", results)
-end
 
 -- Allow a user to add a project reference
 -- The user gets a screen with all their projects and when they select a project they get a screen that shows all the projects they can add

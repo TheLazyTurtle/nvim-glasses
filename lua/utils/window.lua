@@ -1,3 +1,4 @@
+local helpers = require("helpers")
 local popup = require("plenary.popup")
 local commands = require("commands")
 local M = {}
@@ -6,6 +7,8 @@ Glasses_win_id = nil
 Glasses_bufh = nil
 Secton = nil
 Command = nil
+Callback_has_callback = false
+Prev_value = nil
 
 -- Close the window
 function M.close_menu()
@@ -14,6 +17,12 @@ end
 
 -- Create a new window
 local function create_window(difWidth)
+    local solution = helpers.get_solution_path()
+    if solution == nil then
+        print("Not a C# solution. Please open vim in the root of your solution")
+        return
+    end
+
     local width = (difWidth ~= nil and difWidth or 60)
     local height = 10
     local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
@@ -55,15 +64,16 @@ end
 
 -- Gets all the commands per section
 local function get_section_commands(section)
-    local x
-    if section == "project" then
-        x = commands.project
-    elseif section == "solution" then
-        x = commands.solution
-    elseif section == "scaffolding" then
-        x = commands.scaffolding
-    else
-        x = commands.sections
+    local x = commands[section]
+
+    -- Cool error handling
+    if x == nil then
+        print("Not a valid section")
+        Secton = nil
+        -- Command = nil
+        Callback_has_callback = false
+        Prev_value = nil
+        return
     end
 
     local indicies = {}
@@ -75,12 +85,19 @@ local function get_section_commands(section)
     return indicies
 end
 
+-- Find the callable name of a command based on the name from the selection menu
 local function find_command_by_name(name)
     for key, value in pairs(commands[Section]) do
         if value.display_name == name then
             return key
         end
     end
+
+    Secton = nil
+    Command = nil
+    Callback_has_callback = false
+    Prev_value = nil
+    print("Invalid command")
 end
 
 -- Handles a select action
@@ -88,24 +105,57 @@ function M.select_menu_item()
     local value = vim.api.nvim_get_current_line()
     M.close_menu()
 
-    -- If the value is a section then open the correct section screen, else run the callback
+    -- If the command is a section open the section selection window
     if commands.sections[value] ~= nil then
         M.open_window(value)
-    else
-        if Command ~= nil then
-            -- Run the callback
-            if (commands[Section][Command]["callback"] ~= nil) then
-                commands[Section][Command]["callback"](value)
-            end
+        return
+    end
+
+    -- If there is no command set then get the command by its name and show the next data selection screen
+    if Command == nil then
+        Command = find_command_by_name(value)
+
+        local data = commands[Section][Command]["data_selection"]()
+        M.open_window(Section, data)
+        return
+    end
+
+    -- If it is not a command and not a data selection then run the callback
+    local callback = commands[Section][Command]["callback"]
+    if callback == nil then
+        return
+    end
+
+    -- If the callback contains a table first run the data selection from that end then the callback
+    if type(callback) == "table" then
+        if Callback_has_callback then
+            callback.callback(Prev_value, value)
+
+            Callback_has_callback = false
+            Prev_value = nil
+            Section = nil
             Command = nil
-            print("Finished callback")
+            return
         else
-            -- Open data selection screen
-            Command = find_command_by_name(value)
-            local data = commands[Section][Command]["data_selection"]()
-            print("Finished data selection")
-            M.open_window(Section, data)
+            Prev_value = value
+            M.open_window(Section, callback["data_selection"](value))
         end
+
+        -- If the callback has a callback then set the value true
+        if callback["callback"] ~= nil then
+            Callback_has_callback = true
+        else
+            Callback_has_callback = false
+            Prev_value = nil
+            Section = nil
+            Command = nil
+        end
+    else
+        Command = nil
+        Section = nil
+        Callback_has_callback = false
+        Prev_value = nil
+        callback(value)
     end
 end
 
@@ -140,6 +190,7 @@ function M.open_window(section, data)
         contents = get_section_commands(section)
     end
 
+    -- Options
     Glasses_win_id = win_info.win_id
     Glasses_bufh = win_info.bufnr
 
