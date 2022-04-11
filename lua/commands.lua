@@ -29,9 +29,16 @@ M.project = {
     },
     remove_project_reference = {
         display_name = "Remove reference to project",
+        data_selection = require('projects.list').list_projects,
+        callback = {
+            data_selection = require('projects.references').list_project_references,
+            callback = require('projects.references').remove_project_reference
+        }
     },
     delete = {
         display_name = "Delete",
+        data_selection = require('projects.list').list_projects,
+        callback = require('projects.delete').delete_project
     },
     create = {
         display_name = "Create",

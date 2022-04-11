@@ -17,4 +17,14 @@ M.add_project_reference = function(base_project, project_to_add)
     return results
 end
 
+M.remove_project_reference = function(base_project, project_to_remove)
+    project_to_remove = string.gsub(project_to_remove, "\\", "/")
+    local cmd = string.format("dotnet remove %s reference %s", base_project, project_to_remove)
+    local result = vim.fn.systemlist(cmd)
+
+    print(string.format("Removed %s from %s", project_to_remove, base_project))
+
+    return result
+end
+
 return M
