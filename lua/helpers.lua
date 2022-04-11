@@ -46,4 +46,15 @@ M.get_difference_between_tables = function(a, b)
     return ret
 end
 
+M.extract_package_name_and_version = function(package)
+    local splitted = M.string_split(package, "  +")
+    local package_name = string.gsub(splitted[2], "> ", "")
+    local version = splitted[3]
+
+    return {
+        name = package_name,
+        versiong = version
+    }
+end
+
 return M
