@@ -46,6 +46,10 @@ M.get_difference_between_tables = function(a, b)
     return ret
 end
 
+M.get_project_dir = function(project)
+    return string.gsub(project, "/(.*)", "")
+end
+
 M.extract_package_name_and_version = function(package)
     local splitted = M.string_split(package, "  +")
     local package_name = string.gsub(splitted[2], "> ", "")
@@ -55,6 +59,16 @@ M.extract_package_name_and_version = function(package)
         name = package_name,
         versiong = version
     }
+end
+
+M.get_table_length = function(table)
+    local count = 0
+
+    for _ in pairs(table) do
+        count = count + 1
+    end
+
+    return count
 end
 
 return M
