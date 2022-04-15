@@ -1,58 +1,5 @@
-local list_projects = require('projects.list').list_projects
 local M = {}
 
--- M.sections = {
---     project = "",
---     solution = "",
---     scaffolding = "",
---     nuget = "",
--- }
---
--- M.project = {
---     add_project_reference = {
---         display_name = "Add project reference",
---         data_selection = list_projects,
---         callback = {
---             -- TODO: This might have to change to something that does not show the selected project
---             data_selection = list_projects,
---             callback = require('projects.references').add_project_reference
---         },
---     },
---     list_project_references = {
---         display_name = "List project references",
---         data_selection = list_projects,
---         callback = {
---             data_selection = require('projects.references').list_project_references,
---         },
---     },
---     remove_project_reference = {
---         display_name = "Remove reference to project",
---         data_selection = list_projects,
---         callback = {
---             data_selection = require('projects.references').list_project_references,
---             callback = require('projects.references').remove_project_reference
---         }
---     },
---     delete = {
---         display_name = "Delete",
---         data_selection = list_projects,
---         callback = require('projects.delete').delete_project
---     },
---     create = {
---         display_name = "Create",
---         callback = require('projects.create').create_project_callback,
---         data_selection = require('projects.create').list_project_templates,
---     },
--- }
---
--- M.solution = {
---     add = {
---         display_name = "Add project to solution",
---         data_selection = require("projects.list").find_all_disconnected_projects,
---         callback = require("solution.add").add_project_to_solution
---     },
--- }
---
 -- M.nuget = {
 --     list_installed = {
 --         display_name = "List installed packages",
@@ -142,13 +89,29 @@ M.section_options = {
         },
     },
     solution = {
-        'Add project to solution'
+        add = {
+            display_name = "Add project to solution",
+            callback = require("solution.add").display_add_project
+        },
     },
     nuget = {
-        'List installed packages',
-        'Add new package',
-        'Remove package',
-        'Update Package'
+        list = {
+            display_name = "List installed packages",
+            callback = require("nuget.list").display_installed_packages
+        },
+        add = {
+            -- TODO: Does not yet work very nicely. Really should add the package selection thing
+            display_name = "Add new package",
+            callback = require("nuget.add").display_add_package
+        },
+        remove = {
+            display_name = "Remove package",
+            callback = require("nuget.remove").display_remove_package
+        },
+        update = {
+            display_name = "Update package",
+            callback = require("nuget.update").display_update_package
+        },
     },
     scaffolding = {
         'Controller',
