@@ -10,14 +10,23 @@ end
 
 -- This will list all the project files/folders in your current solution
 M.list_projects = function()
-    -- Find a way to show all disconnected projects and ask to add those
     local projects = find_linked_projects()
 
-    -- These will remove the formatting lines from the console return
-    -- NOTE: Might need that data anyways but put it in the title of the window
     table.remove(projects, 1)
     table.remove(projects, 1)
     return projects
+end
+
+-- Display all projects in solution
+M.display_project_list = function()
+    M.select_project(helpers.open_file)
+end
+
+M.select_project = function(callback)
+    local projects = M.list_projects()
+    local opts = { prompt = "Select a project:" }
+
+    return vim.ui.select(projects, opts, callback)
 end
 
 -- This should find all the projects that are not connected to the solution
@@ -37,6 +46,7 @@ M.find_all_disconnected_projects = function()
     return helpers.get_difference_between_tables(projects, linked_projects)
 end
 
+-- Find all the models
 M.list_models = function(project)
     local ending = ".cs"
     local project_dir = helpers.get_project_dir(project)

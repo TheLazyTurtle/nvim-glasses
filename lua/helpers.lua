@@ -71,4 +71,10 @@ M.get_table_length = function(table)
     return count
 end
 
+M.open_file = function(file)
+    if file ~= nil then
+        return vim.api.nvim_command("edit " .. file)
+    end
+end
+
 return M

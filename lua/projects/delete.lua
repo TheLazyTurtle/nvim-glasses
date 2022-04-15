@@ -1,4 +1,10 @@
+local projects_list = require("projects.list")
+
 local M = {}
+
+M.display_delete_project = function()
+    projects_list.select_project(M.delete_project)
+end
 
 M.delete_project = function(project)
     local project_dir = string.gsub(project, "/(.*)", "")

@@ -3,12 +3,19 @@ local solution = require("solution.add")
 
 local M = {}
 
+M.display_create_project = function()
+    local opts = { prompt = "Select a template" }
+    return vim.ui.select(M.list_project_templates(), opts, M.create_project_callback)
+end
+
 M.create_project_callback = function(project_template)
     -- Parse project to extract the short name out of it
     local project_short_name = helpers.extract_project_short_name(project_template)
 
-    local project_name = vim.fn.input("Project name: ", "")
-    M.create_project(project_short_name, project_name)
+    local opts = { prompt = "Project name" }
+    vim.ui.input(opts, function(project_name)
+        M.create_project(project_short_name, project_name)
+    end)
 end
 
 -- This will create the project

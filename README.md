@@ -4,10 +4,11 @@
 This plugin has been tested for asp-dotnet 5.0, but should work fine on asp-dotnet 6.0 as well.
 If you encounter any problems on any dotnet version, feel free to open an issue!
 
-## Recommeded to use
+## Recommended to use
 Omnisharp-vim (not sure if this is needed for the plugin)
 `dotnet tool install -g dotnet-aspnet-codegenerator --verson 5.0.2` (This is needed for the plugin) make sure to use the EXACT SAME VERSION as your SDK 
 Use plenary
+Its recommended to use something like dressing.nvim because most actions take a lot of menu's and the default menu can sometimes get a bit confusing
 
 ## TODO:
 ### options
