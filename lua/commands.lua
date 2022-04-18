@@ -66,6 +66,7 @@ M.section_options = {
         },
         area = {
             display_name = "Area",
+            callback = require("scaffolding.area").display_scaffold_area
         },
         identity = {
             display_name = "Identity",

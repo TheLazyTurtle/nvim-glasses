@@ -15,7 +15,6 @@ Its recommended to use something like dressing.nvim because most actions take a 
     -> Implement settings / options
     -> Make a option what allows the plugin to automatically select a project when there is only one available
 ### Code base
-    -> Add tests
     -> Make system commands async or something to prevent vim from freezing
 
 ### Code generation
@@ -26,6 +25,7 @@ Its recommended to use something like dressing.nvim because most actions take a 
         -> Ask use to install the code-generator if it is not installed
 
 ### Actions
+    -> Make something to jump to the view matching the controller
 	-> Run tests
 	-> Run package manager console (ex. add-migration, update-database)
 	-> Add formatting
