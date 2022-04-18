@@ -5,6 +5,7 @@ M.sections = {
     'solution',
     'scaffolding',
     'nuget',
+    'entity_framework'
 }
 
 M.section_options = {
@@ -79,6 +80,28 @@ M.section_options = {
             display_name = "View",
             callback = require("scaffolding.view").display_scaffold_view
         },
+    },
+    entity_framework = {
+        add_migration = {
+            display_name = "Add migration",
+            callback = require("entity_framework.add_migration").display_add_migration
+        },
+        remove_migration = {
+            display_name = "Remove migration",
+            callback = require("entity_framework.remove_migration").display_remove_migration
+        },
+        update_database = {
+            display_name = "Update database",
+            callback = require("entity_framework.update_database").display_update_database
+        },
+        drop_database = {
+            display_name = "Drop database",
+            callback = require("entity_framework.drop_database").display_drop_database
+        },
+        export = {
+            display_name = "Export to .sql",
+            callback = require("entity_framework.export").display_export_database
+        }
     }
 }
 return M

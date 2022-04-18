@@ -7,38 +7,38 @@ If you encounter any problems on any dotnet version, feel free to open an issue!
 ## Recommended to use
 Omnisharp-vim (not sure if this is needed for the plugin)
 `dotnet tool install -g dotnet-aspnet-codegenerator --verson 5.0.2` (This is needed for the plugin) make sure to use the EXACT SAME VERSION as your SDK 
+`dotnet tool install --global dotnet-ef`
 Use plenary
 Its recommended to use something like dressing.nvim because most actions take a lot of menu's and the default menu can sometimes get a bit confusing
+For Linux users:
+    - localDB doesn't work so use this `https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-overview?view=sql-server-ver15`
 
-## TODO:
+## Todo:
 ### options
     -> Implement settings / options
-    -> Make a option what allows the plugin to automatically select a project when there is only one available
+    -> Make a option what allows the plugin to automatically select a project when there is only one available when a project needs to be selected
+    -> Make it possible to always make a new db context when a context has to be selected
+
 ### Code base
     -> Make system commands async or something to prevent vim from freezing
-
-### Code generation
-    -> For things like controllers
-        -> Options like async should that be a different option in the scaffolding menu or should it be asked during the making of a controller
-	-> Add template things (entity framework files, scaffolding)
-        -> Need to install aspnet-codegenerator
-        -> Ask use to install the code-generator if it is not installed
+    -> Error checking and error messages
 
 ### Actions
-    -> Make something to jump to the view matching the controller
 	-> Run tests
-	-> Run package manager console (ex. add-migration, update-database)
 	-> Add formatting
+        -> Isn't this a thing for a separate plugin???
     -> Add running the program
         -> In a side console
         -> In a new tmux window
         -> These options need to be configurable
     -> Publish a project/solution
+    -> Make something to jump to the view matching the controller
 
 	-> Add files (ex: class, interface, etc) (Delayed until further notice)
         -> This is mildly scuffed.
             -> There is no api to do this so i could build it myself
             -> The problem with this is that the namespace won't be auto generated
+                -> But this can be solved by taking the dir the file is placed in and replacing / with .
             -> And then a would have to do this for all the things like test projects and interfaces etc
 
 ### Package manager
