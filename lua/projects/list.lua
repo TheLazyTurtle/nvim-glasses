@@ -48,20 +48,17 @@ end
 
 -- Find all the models
 M.list_models = function(project)
-    local ending = ".cs"
     local project_dir = helpers.get_project_dir(project)
     -- TODO: Maybe make a thing where it will only look in folders that meets conventions to prevent getting files that can't be scaffolded anyway
-    local data = scandir.scan_dir(project_dir, {respect_gitignore = true})
+    local data = scandir.scan_dir(project_dir, {respect_gitignore = true, depth = 5})
     local models = {}
 
     for _, value in pairs(data) do
         -- Exclude bs folders
-        if string.match(value, "/obj/") then
-            break
-        end
-
-        if value:sub(-#ending) == ending then
-            table.insert(models, value)
+        if string.match(value, "/obj/") == nil then
+            if value:sub(-#".cs") == ".cs" then
+                table.insert(models, value)
+            end
         end
     end
 

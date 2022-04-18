@@ -1,49 +1,93 @@
+local package_list = require("nuget.list")
+local package_installer = require("nuget.add")
+local project_list = require("projects.list")
 local helpers = require("helpers")
 local M = {}
 
-local choose_db_context = function(project)
-    local db_context_list = require("scaffolding.list").find_db_context(project)
+local required_packages = {
+    "Microsoft.Visualstudio.Web.Codegeneration.Design",
+    "Microsoft.EntityFrameworkCore.SqlServer",
+    "Microsoft.EntityFrameworkCore.Tools",
+}
 
-    if helpers.get_table_length(db_context_list) == 5 then
-        local text = string.format("Found db context: %s. Press <enter> to use, or type a name to make a new one (<name>Context): ", db_context_list[1])
-        return vim.fn.input(text, "Context")
-    elseif db_context_list == 0 then
-        return vim.fn.input("Found no db context. Type a name to make a new one (<name>Context): ", "Context")
-    else
-        local options = "\n"
-        for key, value in pairs(db_context_list) do
-            local text = string.format("%s %s\n", key, value)
-            options = options .. text
+local has_uninstalled_packages = function(project)
+    local installed_packages = package_list.list_installed_packages(project)
+    return helpers.get_difference_between_tables(required_packages, installed_packages)
+end
+
+local scaffold_controller = function(project, model, name, db_context)
+    local opts = { prompt = "Select custom layout file (leave empty for default): " }
+
+    vim.ui.input(opts, function(layout)
+        if layout == "" or layout == nil then
+            layout = "-udl"
+        else
+            layout = string.format("-l %s", layout)
         end
 
-        -- TODO: Error handling when emtpy
-        -- TODO: Allow option for a new one
-        local text = string.format("Found multiple context. Please choose: %s", options)
-        -- local option = vim.fn.input(text, "")
-        local option = vim.ui.select(db_context_list, {
-            prompt = "Select db context: "
-        },
-        function(choice)
-                print(choice)
-            end)
+        local uninstalled_packages = has_uninstalled_packages(project)
+        if helpers.get_table_length(uninstalled_packages) > 0 then
+            local dotnet_verion = helpers.get_dotnet_version()
+            for _, value in pairs(uninstalled_packages) do
+                package_installer.add_new_package(project, value, dotnet_verion)
+                print("Installed "..value)
+            end
+        end
 
-        return db_context_list[option]
+        -- local cmd = string.format("dotnet-aspnet-codegenerator controller -name %s -m %s -dc %s %s", name, model, db_context, layout)
+        local cmd = string.format("~/.dotnet/tools/dotnet-aspnet-codegenerator controller -p %s -name %s -m %s -dc %s %s -outDir Controllers", project, name, model, db_context, layout)
+        -- print(cmd)
+        local res = vim.fn.systemlist(cmd)
+        print(vim.inspect(res))
+    end)
+end
+
+local get_db_context = function(project, model, name)
+    local db_context_list = require("scaffolding.list").find_db_context(project)
+
+    if helpers.get_table_length(db_context_list) then
+        local solution_path = helpers.get_solution_path()
+        local db_context_name = solution_path:gsub("(.*)/", ""):gsub(".sln", "").."Context"
+
+        local opts = {
+            prompt = "No db context found, please give name for new: ",
+            default = db_context_name
+        }
+        vim.ui.input(opts, function(db_context)
+            scaffold_controller(project, model, name, db_context)
+        end)
+    else
+        local opts = { prompt = "Select db context" }
+        vim.ui.select(db_context_list, opts, function(db_context)
+            scaffold_controller(project, model, name, db_context)
+        end)
     end
 end
 
-M.scaffold_controller = function(project, model)
-    local name = vim.fn.input("Controller name (<name>Controller): ", "Controller")
-    local db_context = choose_db_context(project)
-    local layout = vim.fn.input("Layout file (leave empty for default): ", "")
+local get_controller_name = function(project, model)
+    local controller_name = model:gsub("(.*)/", ""):gsub(".cs", ""):gsub("^%l", string.upper).."sController"
 
-    if layout == "" then
-        layout = "-udl"
-    else
-        layout = string.format("-l %s", layout)
+    local opts = {
+        prompt = "Controller name: ",
+        default = controller_name
+    }
+
+    vim.ui.input(opts, function(name)
+        get_db_context(project, model, name)
+    end)
+end
+
+M.display_scaffold_controller = function(project)
+    if project == nil then
+        return project_list.select_project(M.display_scaffold_controller)
     end
 
-    local cmd = string.format("dotnet-aspnet-codegenerator controller -name %s -m %s -dc %s %s", name, model, db_context, layout)
-    print(cmd)
+    local models = project_list.list_models(project)
+    local opts = { prompt = "Select model:" }
+    vim.ui.select(models, opts, function(model)
+        model = model:gsub("(.*)/", ""):gsub(".cs", "")
+        get_controller_name(project, model)
+    end)
 end
 
 return M

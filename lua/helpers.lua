@@ -2,6 +2,7 @@ local scandir = require("plenary.scandir")
 local M = {}
 
 -- This gets the solution path
+-- TODO: This kinda should go to the solution thing
 M.get_solution_path = function()
     local data = scandir.scan_dir('.', {depth = 2})
     for _, v in pairs(data) do
@@ -9,6 +10,11 @@ M.get_solution_path = function()
             return v
         end
     end
+end
+
+-- TODO: Make this work for all dotnet versions
+M.get_dotnet_version = function()
+    return "5.0"
 end
 
 -- this will take the full project template string and extract the short name out of it

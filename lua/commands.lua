@@ -1,59 +1,5 @@
 local M = {}
 
--- M.nuget = {
---     list_installed = {
---         display_name = "List installed packages",
---         data_selection = require("projects.list").list_projects,
---         callback = {
---             data_selection = require("nuget.list").list_installed_packages
---         }
---     },
---     add_new = {
---         display_name = "Install a package",
---         data_selection = require("projects.list").list_projects,
---         callback = require("nuget.add").add_new_package,
---     },
---     remove_package = {
---         display_name = "Uninstall a package",
---         data_selection = require("projects.list").list_projects,
---         callback = {
---             data_selection = require("nuget.list").list_installed_packages,
---             callback = require("nuget.remove").remove_package
---         }
---     },
---     update_package = {
---         display_name = "Update a package",
---         data_selection = require("projects.list").list_projects,
---         callback = {
---             data_selection = require("nuget.list").list_installed_packages,
---             callback = require("nuget.update").update_package
---         }
---     }
--- }
---
--- M.scaffolding = {
---     controller = {
---         display_name = "Controller",
---         data_selection = require("projects.list").list_projects,
---         callback = {
---             data_selection = require("projects.list").list_models,
---             callback = require("scaffolding.controllers").scaffold_controller
---         }
---     },
---     area = {
---         display_name = "Area",
---     },
---     identity = {
---         display_name = "Identity",
---     },
---     razorpage = {
---         display_name = "Razorpage",
---     },
---     view = {
---         display_name = "View",
---     }
--- }
-
 M.sections = {
     'project',
     'solution',
@@ -114,11 +60,45 @@ M.section_options = {
         },
     },
     scaffolding = {
-        'Controller',
-        'Area',
-        'Identity',
-        'Razorpage',
-        'View'
+        controller = {
+            display_name = "Controller",
+            callback = require("scaffolding.controllers").display_scaffold_controller
+        },
+        area = {
+            display_name = "Area",
+        },
+        identity = {
+            display_name = "Identity",
+        },
+        razorpage = {
+            display_name = "Razorpage",
+        },
+        view = {
+            display_name = "View",
+        },
     }
 }
+
+-- M.scaffolding = {
+--     controller = {
+--         display_name = "Controller",
+--         data_selection = require("projects.list").list_projects,
+--         callback = {
+--             data_selection = require("projects.list").list_models,
+--             callback = require("scaffolding.controllers").scaffold_controller
+--         }
+--     },
+--     area = {
+--         display_name = "Area",
+--     },
+--     identity = {
+--         display_name = "Identity",
+--     },
+--     razorpage = {
+--         display_name = "Razorpage",
+--     },
+--     view = {
+--         display_name = "View",
+--     }
+-- }
 return M
