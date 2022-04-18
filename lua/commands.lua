@@ -73,6 +73,7 @@ M.section_options = {
         },
         razorpage = {
             display_name = "Razorpage",
+            callback = require("scaffolding.razorpage").display_scaffold_razorpage
         },
         view = {
             display_name = "View",
