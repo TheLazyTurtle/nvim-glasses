@@ -2,7 +2,7 @@
 local M = {}
 
 M.is_codegenerator_installed = function()
-    local cmd = "dotnet"
+    -- local cmd = "dotnet"
 end
 
 M.install_codegenerator = function()

@@ -77,30 +77,8 @@ M.section_options = {
         },
         view = {
             display_name = "View",
+            callback = require("scaffolding.view").display_scaffold_view
         },
     }
 }
-
--- M.scaffolding = {
---     controller = {
---         display_name = "Controller",
---         data_selection = require("projects.list").list_projects,
---         callback = {
---             data_selection = require("projects.list").list_models,
---             callback = require("scaffolding.controllers").scaffold_controller
---         }
---     },
---     area = {
---         display_name = "Area",
---     },
---     identity = {
---         display_name = "Identity",
---     },
---     razorpage = {
---         display_name = "Razorpage",
---     },
---     view = {
---         display_name = "View",
---     }
--- }
 return M
