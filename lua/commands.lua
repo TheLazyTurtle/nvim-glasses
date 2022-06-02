@@ -5,11 +5,16 @@ M.sections = {
     'solution',
     'scaffolding',
     'nuget',
-    'entity_framework'
+    'entity_framework',
+    'actions'
 }
 
 M.section_options = {
     project = {
+        make_file = {
+            display_name = 'Make new file',
+            callback = require('projects.files').display_create_file
+        },
         list = {
             display_name = 'List projects',
             callback = require('projects.list').display_project_list
@@ -105,6 +110,24 @@ M.section_options = {
         export = {
             display_name = 'Export to .sql',
             callback = require('entity_framework.export').display_export_database
+        }
+    },
+    actions = {
+        run = {
+            display_name = 'Run app',
+            callback = require('actions.run').display_run_app
+        },
+        list_test = {
+            display_name = 'List tests',
+            callback = require('actions.tests').display_list_test
+        },
+        all_tests = {
+            display_name = 'Run all tests',
+            callback = require('actions.tests').display_run_all_test
+        },
+        test = {
+            display_name = 'Run test project',
+            callback = require('actions.tests').display_run_test
         }
     }
 }

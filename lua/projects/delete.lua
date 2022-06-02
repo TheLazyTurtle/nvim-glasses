@@ -1,4 +1,5 @@
 local projects_list = require("projects.list")
+local helpers       = require("helpers")
 
 local M = {}
 
@@ -13,6 +14,8 @@ M.delete_project = function(project)
 
     vim.fn.system(remove_project_cmd)
     vim.fn.system(delete_files_cmd)
+
+    helpers.refresh_file_tree()
 
     print("Removed project")
 end

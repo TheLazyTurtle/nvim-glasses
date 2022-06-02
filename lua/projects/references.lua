@@ -50,6 +50,7 @@ end
 M.add_project_reference = function(base_project, project_to_add)
     local cmd = string.format("dotnet add %s reference %s", base_project, project_to_add)
     local results = vim.fn.systemlist(cmd)
+    print(vim.inspect(results))
     print(string.format("Added %s to %s", project_to_add, base_project))
 
     return results

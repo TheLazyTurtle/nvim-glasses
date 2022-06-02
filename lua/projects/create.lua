@@ -22,6 +22,7 @@ end
 M.create_project = function(project_template, name)
     local cmd = string.format('dotnet new %s --name %s', project_template, name)
     local result = vim.fn.system(cmd)
+    helpers.refresh_file_tree()
 
     if string.find(result, 'Restore succeeded.') then
         solution.add_project_to_solution(name)

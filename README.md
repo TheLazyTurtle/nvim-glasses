@@ -19,19 +19,26 @@ For Linux users:
     -> Make a option what allows the plugin to automatically select a project when there is only one available when a project needs to be selected
     -> Make it possible to always make a new db context when a context has to be selected
     -> Make a option for a user to select their file tree refresh function so it file tree will be updated when making project or solution
+    -> Make a user choose how projects are ran
+        -> using a side split
+        -> using tmux
+        -> maybe even a open the option for something custom
+
+### Entity Framework
+    -> Where is it???
+    -> How does it work???
+    -> Is it even REAL??
+    -> Are any of us even REAL???
+
+### Notes
+    -> Tests
+        -> when selecting a test project to run tests on make sure to only show test projects
 
 ### Code base
     -> Make system commands async or something to prevent vim from freezing
     -> Error checking and error messages
 
 ### Actions
-	-> Run tests
-	-> Add formatting
-        -> Isn't this a thing for a separate plugin???
-    -> Add running the program
-        -> In a side console
-        -> In a new tmux window
-        -> These options need to be configurable
     -> Publish a project/solution
     -> Make something to jump to the view matching the controller
 

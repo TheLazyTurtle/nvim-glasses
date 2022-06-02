@@ -7,12 +7,7 @@ local values = {
 }
 
 M.display_new_solution = function()
-    -- TODO: Ask if user wants it in current folder or make new folder
-    --      If new folder ask for folder name and make that folder
-    --      Ask for solution file name (auto fill with folder name)
-    --      If no new folder has to be made then just ask for solution file name and make it
-
-    local opts = { prompt = 'Choose a option' }
+        local opts = { prompt = 'Choose a option' }
 
     return vim.ui.select(values, opts, M.create_solution_callback)
 end
