@@ -6,7 +6,7 @@ If you encounter any problems on any dotnet version, feel free to open an issue!
 
 ## Recommended to use
 Omnisharp-vim (not sure if this is needed for the plugin)
-`dotnet tool install -g dotnet-aspnet-codegenerator --verson 5.0.2` (This is needed for the plugin) make sure to use the EXACT SAME VERSION as your SDK 
+`dotnet tool install -g dotnet-aspnet-codegenerator --version 5.0.2` (This is needed for the plugin) make sure to use the EXACT SAME VERSION as your SDK 
 `dotnet tool install --global dotnet-ef`
 Use plenary
 Its recommended to use something like dressing.nvim because most actions take a lot of menu's and the default menu can sometimes get a bit confusing
@@ -18,6 +18,7 @@ For Linux users:
     -> Implement settings / options
     -> Make a option what allows the plugin to automatically select a project when there is only one available when a project needs to be selected
     -> Make it possible to always make a new db context when a context has to be selected
+    -> Make a option for a user to select their file tree refresh function so it file tree will be updated when making project or solution
 
 ### Code base
     -> Make system commands async or something to prevent vim from freezing
