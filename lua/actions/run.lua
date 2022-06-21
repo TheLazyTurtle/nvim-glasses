@@ -6,7 +6,7 @@ M.display_run_app = function(project)
         return project_list.select_project(M.display_run_app)
     end
 
-    local cmd = string.format("vsplit term://dotnet run --project %s", project)
+    local cmd = string.format("vsplit term://printf \'Running project \r\' & dotnet run --project %s", project)
     vim.api.nvim_command(cmd)
 end
 

@@ -49,6 +49,10 @@ M.section_options = {
             display_name = 'Add project to solution',
             callback = require('solution.add').display_add_project
         },
+        global_config = {
+            display_name = 'Set dotnet version for solution',
+            callback = require('solution.config').display_make_global_config
+        }
     },
     nuget = {
         list = {

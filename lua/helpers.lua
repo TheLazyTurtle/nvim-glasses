@@ -89,4 +89,8 @@ M.refresh_file_tree = function()
     return vim.api.nvim_command('NvimTreeRefresh')
 end
 
+M.restart_lang_server = function()
+    return vim.api.nvim_command("LspRestart")
+end
+
 return M

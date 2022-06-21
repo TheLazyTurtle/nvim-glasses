@@ -1,5 +1,6 @@
 local projects_list = require("projects.list")
-local M = {}
+local helpers       = require("helpers")
+local M             = {}
 
 -- Show all project references in project
 M.display_list_project_references = function(project)
@@ -53,6 +54,7 @@ M.add_project_reference = function(base_project, project_to_add)
     print(vim.inspect(results))
     print(string.format("Added %s to %s", project_to_add, base_project))
 
+    helpers.restart_lang_server()
     return results
 end
 
@@ -63,7 +65,7 @@ M.remove_project_reference = function(base_project, project_to_remove)
     local result = vim.fn.systemlist(cmd)
 
     print(string.format("Removed %s from %s", project_to_remove, base_project))
-
+    helpers.restart_lang_server()
     return result
 end
 

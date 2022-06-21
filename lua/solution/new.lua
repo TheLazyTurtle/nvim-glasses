@@ -7,7 +7,7 @@ local values = {
 }
 
 M.display_new_solution = function()
-        local opts = { prompt = 'Choose a option' }
+    local opts = { prompt = 'Choose a option' }
 
     return vim.ui.select(values, opts, M.create_solution_callback)
 end
